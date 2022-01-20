@@ -59,12 +59,12 @@ class Visualizer {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         for (let i = 0; i < this.bufferLength; i++) {
-            let maxH = (this.data[i] * 2) * 90 / 100;
+            let maxH = (this.data[i] * 2) * 95 / 100;
             this.bar.height = Math.max(maxH / 2, 1);
 
-            let r = this.bar.height + (100 * (i / this.bufferLength)),
-                g = 100 * (i / this.bufferLength),
-                b = 100;
+            let r = this.bar.height + (200 * (i / this.bufferLength)),
+                g = 200 * (i / this.bufferLength),
+                b = 200;
 
 
             this.ctx.fillStyle = `rgb(${r},${g},${b})`//this.color;
