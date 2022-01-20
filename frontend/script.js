@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 /** @type {HTMLInputElement} */
 const colorPicker = document.getElementById('vis-col');
+const playBtn = document.getElementById('play');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -11,17 +12,30 @@ window.onload = function() {
         /** @type {HTMLAudioElement} */
         audio = document.getElementById('audio');
 
-    file.onchange = function() {
-        let files = this.files;
-        audio.src = URL.createObjectURL(files[0]);
-        audio.load();
-        const visualizer = new Visualizer(audio, canvas);
+    audio.src = 'https://krapiv1.herokuapp.com/audio?index=0';
+    audio.load();
+    const visualizer = new Visualizer(audio, canvas);
 
+    playBtn.addEventListener('click', () => audio.play());
+    // visualizer.connect();
+
+    visualizer.audio.onplay = function() {
         visualizer.connect();
-
         audio.play();
-        visualizer.render()
-
-        colorPicker.addEventListener('change', () => visualizer.color = colorPicker.value)
+        visualizer.render();
     }
+
+    // file.onchange = function() {
+    //     let files = this.files;
+    //     // audio.src = URL.createObjectURL(files[0]);
+    //     audio.load();
+    //     const visualizer = new Visualizer(audio, canvas);
+
+    //     visualizer.connect();
+
+    //     audio.play();
+    //     visualizer.render()
+
+    //     colorPicker.addEventListener('change', () => visualizer.color = colorPicker.value)
+    // }
 }
