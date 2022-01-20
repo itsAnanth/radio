@@ -1,41 +1,48 @@
+const content = document.getElementById('content');
 const canvas = document.getElementById('canvas');
 /** @type {HTMLInputElement} */
-const colorPicker = document.getElementById('vis-col');
 const playBtn = document.getElementById('play');
+const base = 'https://krapiv1.herokuapp.com';
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+resize(canvas);
 
-window.onload = function() {
-    /** @type {HTMLInputElement} */
-    let file = document.getElementById('thefile'),
-        /** @type {HTMLAudioElement} */
-        audio = document.getElementById('audio');
+window.addEventListener('resize', () => resize(canvas));
 
-    audio.src = 'https://krapiv1.herokuapp.com/audio?index=0';
+/** @type {HTMLAudioElement} */
+let audio = null;
+
+window.onload = async function () {
+    window.paused = null;
+
+
+    const count = await (await fetch(`${base}/count`)).json();
+    playBtn.addEventListener('click', () => {
+        if (!audio) {
+            audio = document.createElement('audio');
+        } else {
+            audio.pause();
+            audio.remove();
+            audio = document.createElement('audio');
+        }
+        audio.src = `${base}/audio?index=${Math.floor(Math.random() * Number(count))}`;
+        audio.crossOrigin = 'anonymous'
+
+        content.appendChild(audio);
+
+        __init__(audio);
+    });
+}
+
+function __init__(audio) {
     audio.load();
     const visualizer = new Visualizer(audio, canvas);
 
-    playBtn.addEventListener('click', () => audio.play());
-    // visualizer.connect();
+    visualizer.connect();
+    audio.play();
+    visualizer.render();
+}
 
-    visualizer.audio.onplay = function() {
-        visualizer.connect();
-        audio.play();
-        visualizer.render();
-    }
-
-    // file.onchange = function() {
-    //     let files = this.files;
-    //     // audio.src = URL.createObjectURL(files[0]);
-    //     audio.load();
-    //     const visualizer = new Visualizer(audio, canvas);
-
-    //     visualizer.connect();
-
-    //     audio.play();
-    //     visualizer.render()
-
-    //     colorPicker.addEventListener('change', () => visualizer.color = colorPicker.value)
-    // }
+function resize(canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
