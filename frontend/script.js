@@ -1,4 +1,3 @@
-import Visualizer from "./Visualizer.js";
 const canvas = document.getElementById('canvas');
 /** @type {HTMLInputElement} */
 const colorPicker = document.getElementById('vis-col');
