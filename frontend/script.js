@@ -15,7 +15,6 @@ window.onload = function() {
         let files = this.files;
         audio.src = URL.createObjectURL(files[0]);
         audio.load();
-        audio.play()
         const visualizer = new Visualizer(audio, canvas);
 
         visualizer.connect();
