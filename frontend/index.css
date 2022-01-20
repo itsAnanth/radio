@@ -2,6 +2,7 @@
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+	font-family: 'Courier Prime', monospace;
 }
 
 .nav {
@@ -26,4 +27,42 @@ audio {
 	left: 10px;
 	bottom: 10px;
 	width: calc(100% - 20px);
+}
+
+#content {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	flex: 1;
+}
+
+#play {
+	font-size: 2rem;
+	color: #ccc;
+}
+
+/* .progress {
+	width: 50%;
+	height: 5%;
+
+	background-color: grey;
+	opacity: 50%;
+} */
+
+
+
+
+progress[value] {
+	-webkit-appearance: none;
+	appearance: none;
+}
+progress[value]::-webkit-progress-bar {
+	border: 2px solid black;
+}
+progress[value]::-webkit-progress-value {
+	background-color: wheat;
 }
