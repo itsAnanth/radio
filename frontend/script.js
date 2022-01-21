@@ -5,7 +5,7 @@ const volumetoggle = document.getElementById('volume-toggle');
 const loader = document.getElementById('loader_div');
 /** @type {HTMLInputElement} */
 const play = document.getElementById('play');
-const base = 'https://krapiv1.herokuapp.com';
+const base = 'http://localhost:3000';
 
 resize(canvas);
 
@@ -20,10 +20,12 @@ window.onload = async function () {
     window.paused = null;
     window.muted = false;
 
-    const count = await (await fetch(`${base}/count`)).json();
+    const countRes = (await (await fetch(`${base}/count`)).json());
 
-    if (!count) return play.innerHTML = 'Request Blocked By Client :(';
+    if (!countRes.success) return play.innerHTML = 'Request Blocked By Client :(';
 
+    const count = countRes.message;
+    
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
     play.addEventListener('click', handleStart);
@@ -57,8 +59,9 @@ window.onload = async function () {
         audio.src = `${base}/audio?index=${index}`;
         audio.crossOrigin = 'anonymous';
 
-        const track = await (await fetch(`${base}/track?index=${index}`).catch(console.log)).json();
-        track && track.success && (details.innerText = track.title)
+        const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
+        
+        trackRes && trackRes.success && (details.innerText = trackRes.message.title);
         content.appendChild(audio);
 
         __init__(audio);
