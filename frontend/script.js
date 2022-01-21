@@ -30,6 +30,7 @@ window.onload = async function () {
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
     play.addEventListener('click', handleStart);
+    window.addEventListener('keydown', handleKeys);
 
     function handleVolToggle() {
         if (window.muted) {
@@ -44,6 +45,17 @@ window.onload = async function () {
             volumetoggle.classList.remove('fa-volume-up');
         }
 
+    }
+
+    function handleKeys(e) {
+        switch(e.code) {
+            case 'Space':
+                handleVolToggle();
+                break;
+            case 'ArrowRight': case 'ArrowLeft': 
+                handleStart();
+                break;
+        }
     }
 
     async function handleStart() {
