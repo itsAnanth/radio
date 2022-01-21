@@ -161,6 +161,19 @@ progress[value]::-webkit-progress-value {
 	transition: width 0.2s;
 }
 
+.sidebar::-webkit-scrollbar {
+	width: 2px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+	background-color: rgb(41, 41, 41);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+	background: rgb(149, 2, 51); 
+	border-radius: 100vh;
+}
+
 .sidebar-toggle {
 	position: absolute;
 	top: 0;
