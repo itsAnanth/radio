@@ -11,19 +11,23 @@
     <script src="./frontend/script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./frontend/loader.css">
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
     <script src='./frontend/font.min.js' defer></script>
 </head>
 
 <body>
-
+    <div id="loader_div" class="preloader">
+        <div class="loader"></div>
+    </div>
     <div id="content">
         <p id="details"></p>
         <canvas id="canvas"></canvas>
         <p id="play">Click to Play</p>
-        <i class="fa fa-volume-up" id="volume-toggle"></i>
-
-
+        <div class="footer">
+            <div id="elapsed" class="elapsed"></div>
+            <i class="fa fa-volume-up" id="volume-toggle"></i>
+        </div>
         <!-- <audio id="audio"></audio> -->
     </div>
 
