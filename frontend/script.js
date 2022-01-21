@@ -17,7 +17,7 @@ window.addEventListener('resize', () => resize(canvas));
 /** @type {HTMLAudioElement} */
 let audio = null;
 
-async function handleStart(indexOverride = null) {
+async function startPlayer(count = null, indexOverride = null) {
     if (window.resolving) return;
 
     window.resolving = true;
@@ -91,7 +91,9 @@ window.onload = async function () {
         }
     }
 
-    
+    function handleStart() {
+        startPlayer(count);
+    }
 }
 
 /**
@@ -133,7 +135,7 @@ function handleSidebarToggle() {
 
 function handleTrackClick() {
     const index = this.getAttribute('data-index');
-    handleStart(index);
+    startPlayer(null, index);
 }
 
 async function populateSideBar() {
