@@ -25,7 +25,8 @@ window.onload = async function () {
 
     if (!countRes.success) return play.innerHTML = 'Request Blocked By Client :(';
 
-    const count = countRes.message;
+    window.count = countRes.message;
+
 
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
@@ -48,42 +49,45 @@ window.onload = async function () {
     }
 
     function handleKeys(e) {
-        switch(e.code) {
+        switch (e.code) {
             case 'Space':
                 handleVolToggle();
                 break;
-            case 'ArrowRight': case 'ArrowLeft': 
+            case 'ArrowRight': case 'ArrowLeft':
                 handleStart();
                 break;
         }
     }
 
-    async function handleStart() {
-        if (window.resolving) return;
 
-        window.resolving = true;
-
-        if (!audio) audio = document.createElement('audio');
-        else if (!audio.paused) {
-            audio.currentTime = 0
-            audio.remove();
-            audio = document.createElement('audio');
-        }
-        play.innerHTML = 'Loading ...'
-        const index = Math.floor(Math.random() * Number(count));
-        audio.onerror = console.log
-        audio.src = `${base}/audio?index=${index}`;
-        audio.crossOrigin = 'anonymous';
-
-        const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
-
-        trackRes && trackRes.success && (details.innerText = trackRes.message.title);
-        content.appendChild(audio);
-
-        window.resolving = await __init__(audio);
-        console.log('resolved')
-    };
 }
+
+async function handleStart() {
+    if (window.resolving) return;
+
+    window.resolving = true;
+
+    if (!audio) audio = document.createElement('audio');
+    else {
+        audio.currentTime = 0
+        audio.remove();
+        audio = document.createElement('audio');
+    }
+    play.innerHTML = 'Loading ...'
+    const index = Math.floor(Math.random() * Number(window.count));
+    audio.onerror = console.log
+    audio.src = `${base}/audio?index=${index}`;
+    audio.crossOrigin = 'anonymous';
+
+    const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
+
+    trackRes && trackRes.success && (details.innerText = trackRes.message.title);
+    content.appendChild(audio);
+
+    window.resolving = await __init__(audio);
+    play.innerHTML = 'Click to Change';
+    console.log('resolved')
+};
 
 /**
  * 
@@ -98,7 +102,6 @@ function __init__(audio) {
         visualizer.connect();
         audio.play();
         visualizer.render();
-        play.innerHTML = 'Click to Change'
         audio.addEventListener('loadeddata', () => resolve(false));
     })
 }
