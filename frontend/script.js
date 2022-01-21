@@ -72,7 +72,7 @@ function __init__(audio) {
     visualizer.connect();
     audio.play();
     visualizer.render();
-    play.innerHTML = 'Click to Play'
+    play.innerHTML = 'Click to Change'
 }
 
 function resize(canvas) {
