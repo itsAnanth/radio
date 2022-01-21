@@ -19,13 +19,14 @@ window.onload = async function () {
     // loader.remove();
     window.paused = null;
     window.muted = false;
+    window.resolving = false;
 
     const countRes = (await (await fetch(`${base}/count`)).json());
 
     if (!countRes.success) return play.innerHTML = 'Request Blocked By Client :(';
 
     const count = countRes.message;
-    
+
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
     play.addEventListener('click', handleStart);
@@ -46,36 +47,48 @@ window.onload = async function () {
     }
 
     async function handleStart() {
-        if (!audio) {
-            audio = document.createElement('audio');
-        } else {
+        if (window.resolving) return;
+
+        window.resolving = true;
+
+        if (!audio) audio = document.createElement('audio');
+        else if (!audio.paused) {
             audio.currentTime = 0
-            audio.pause();
             audio.remove();
             audio = document.createElement('audio');
         }
         play.innerHTML = 'Loading ...'
         const index = Math.floor(Math.random() * Number(count));
+        audio.onerror = console.log
         audio.src = `${base}/audio?index=${index}`;
         audio.crossOrigin = 'anonymous';
 
         const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
-        
+
         trackRes && trackRes.success && (details.innerText = trackRes.message.title);
         content.appendChild(audio);
 
-        __init__(audio);
+        window.resolving = await __init__(audio);
+        console.log('resolved')
     };
 }
 
+/**
+ * 
+ * @param {HTMLAudioElement} audio 
+ */
 function __init__(audio) {
-    audio.load();
-    const visualizer = new Visualizer(audio, canvas);
+    window.resolving = true;
+    return new Promise(resolve => {
+        audio.load();
+        const visualizer = new Visualizer(audio, canvas);
 
-    visualizer.connect();
-    audio.play();
-    visualizer.render();
-    play.innerHTML = 'Click to Change'
+        visualizer.connect();
+        audio.play();
+        visualizer.render();
+        play.innerHTML = 'Click to Change'
+        audio.addEventListener('loadeddata', () => resolve(false));
+    })
 }
 
 function resize(canvas) {
