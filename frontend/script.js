@@ -7,6 +7,9 @@ const loader = document.getElementById('loader_div');
 const play = document.getElementById('play');
 const base = 'https://krapiv1.herokuapp.com';
 
+const sidebarWidth = 450;
+let sidebarToggled = false;
+
 resize(canvas);
 
 window.addEventListener('resize', () => resize(canvas));
@@ -15,14 +18,18 @@ window.addEventListener('resize', () => resize(canvas));
 let audio = null;
 
 window.onload = async function () {
-    loader.classList.add('opacity-0')
+    //loader.classList.add('opacity-0')
     // loader.remove();
     window.paused = null;
     window.muted = false;
 
+    document.querySelector('.sidebar-toggle').addEventListener('click', handleSidebarToggle);
+
     const count = await (await fetch(`${base}/count`)).json();
 
     if (!count) return play.innerHTML = 'Request Blocked By Client :(';
+
+    await populateSideBar();
 
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
@@ -43,7 +50,7 @@ window.onload = async function () {
 
     }
 
-    async function handleStart() {
+    async function handleStart(e, _index = null) {
         if (!audio) {
             audio = document.createElement('audio');
         } else {
@@ -54,6 +61,7 @@ window.onload = async function () {
         }
         play.innerHTML = 'Loading ...'
         const index = Math.floor(Math.random() * Number(count));
+        console.log(index)
         audio.src = `${base}/audio?index=${index}`;
         audio.crossOrigin = 'anonymous';
 
@@ -75,7 +83,48 @@ function __init__(audio) {
     play.innerHTML = 'Click to Play'
 }
 
+
+
 function resize(canvas) {
-    canvas.width = window.innerWidth;
+    canvas.width = !sidebarToggled ? window.innerWidth: window.innerWidth - sidebarWidth;
     canvas.height = window.innerHeight;
+}
+
+function handleSidebarToggle() {
+    if (sidebarToggled) {
+        document.querySelector('.sidebar').style.width = '0';
+        document.querySelector('.sidebar-toggle').style.right = '0';
+        sidebarToggled = false;
+    } else {
+        document.querySelector('.sidebar').style.width = `${sidebarWidth}px`;
+        document.querySelector('.sidebar-toggle').style.right = `${sidebarWidth}px`;
+        sidebarToggled = true;
+    }
+}
+
+function handleTrackClick() {
+    const index = this.getAttribute('data-index');
+    handleStart(index);
+}
+
+async function populateSideBar() {
+    let accumilated = '<li class="aside__title">Tracks</li>';
+
+    const tracks = await (await fetch(`${base}/all`)).json();
+    console.log(tracks)
+    tracks && tracks.success && tracks.message.forEach((track, index) => {
+        const trackTemplate = `
+        <li class="aside__content" data-index="${index}">
+            <img src="${track.thumbnail}" alt="a video thumbnail" class="thumbnail">
+            <p>${track.title.slice(0, 30) + '...'}</p>
+            <p class="aside__play">▶</p>
+        </li>
+        `
+        accumilated += trackTemplate;
+    })
+    document.querySelector('.sidebar').innerHTML = accumilated;
+
+    document.querySelectorAll('.aside__content').forEach(track => {
+        track.addEventListener('click', handleTrackClick);
+    })
 }
