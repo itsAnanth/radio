@@ -7,7 +7,7 @@ const loader = document.getElementById('loader_div');
 const play = document.getElementById('play');
 const base = 'https://krapiv1.herokuapp.com';
 
-const sidebarWidth = 30;
+const sidebarWidth = 33;
 let sidebarToggled = false;
 
 resize(canvas);
