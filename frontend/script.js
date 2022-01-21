@@ -17,6 +17,32 @@ window.addEventListener('resize', () => resize(canvas));
 /** @type {HTMLAudioElement} */
 let audio = null;
 
+async function handleStart(indexOverride = null) {
+    if (window.resolving) return;
+
+    window.resolving = true;
+
+    if (!audio) audio = document.createElement('audio');
+    else if (!audio.paused) {
+        audio.currentTime = 0
+        audio.remove();
+        audio = document.createElement('audio');
+    }
+    play.innerHTML = 'Loading ...'
+    const index = !indexOverride ? Math.floor(Math.random() * Number(count)) : indexOverride;
+    audio.onerror = console.log
+    audio.src = `${base}/audio?index=${index}`;
+    audio.crossOrigin = 'anonymous';
+
+    const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
+
+    trackRes && trackRes.success && (details.innerText = trackRes.message.title);
+    content.appendChild(audio);
+
+    window.resolving = await __init__(audio);
+    console.log('resolved')
+};
+
 window.onload = async function () {
     //loader.classList.add('opacity-0')
     // loader.remove();
@@ -65,31 +91,7 @@ window.onload = async function () {
         }
     }
 
-    async function handleStart() {
-        if (window.resolving) return;
-
-        window.resolving = true;
-
-        if (!audio) audio = document.createElement('audio');
-        else if (!audio.paused) {
-            audio.currentTime = 0
-            audio.remove();
-            audio = document.createElement('audio');
-        }
-        play.innerHTML = 'Loading ...'
-        const index = Math.floor(Math.random() * Number(count));
-        audio.onerror = console.log
-        audio.src = `${base}/audio?index=${index}`;
-        audio.crossOrigin = 'anonymous';
-
-        const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
-
-        trackRes && trackRes.success && (details.innerText = trackRes.message.title);
-        content.appendChild(audio);
-
-        window.resolving = await __init__(audio);
-        console.log('resolved')
-    };
+    
 }
 
 /**
