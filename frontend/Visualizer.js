@@ -55,6 +55,7 @@ class Visualizer {
 
     render() {
         requestAnimationFrame(this.render.bind(this));
+        if (~~this.audio.duration != 0 && ~~this.audio.currentTime >= ~~this.audio.duration) play.click();
         elapsed.innerHTML = isNaN(this.audio.duration) ? ('00:00 / 00:00') : (`${this.convertTime(this.audio.currentTime)} / ${this.convertTime(this.audio.duration)}`);
         let dx = 0;
         this.analyzer.getByteFrequencyData(this.data);
