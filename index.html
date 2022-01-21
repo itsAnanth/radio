@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio</title>
+    <meta name="description" content="Simple audio streaming app to share my tunes ;)" />
+    <link rel="stylesheet" href="./frontend/index.css">
+    <script src="./frontend/Visualizer.js" defer></script>
+    <script src="./frontend/script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./frontend/loader.css">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <script src='./frontend/font.min.js' defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <div id="loader_div" class="preloader">
+                <div class="loader"></div>
+            </div>
+            <div id="content">
+                <p id="details"></p>
+                <canvas id="canvas"></canvas>
+                <p id="play">Click to Play</p>
+                <div class="footer">
+                    <div id="elapsed" class="elapsed"></div>
+                    <i class="fa fa-volume-up" id="volume-toggle"></i>
+                </div>
+                <!-- <audio id="audio"></audio> -->
+            </div>
+        </div>
+        <ul class="sidebar">
+
+        </ul>
+        <div class="sidebar-toggle">
+            <img src="./assets/tracksburger.png" alt="tracks burger icon">
+        </div>
+    </div>
+
+</body>
+
+</html>
