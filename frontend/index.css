@@ -48,6 +48,7 @@ audio {
 	z-index: 5;
 	font-size: 2rem;
 	color: #ccc;
+	transition: all 1s;
 }
 
 #details {

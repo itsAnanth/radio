@@ -45,11 +45,12 @@ async function startPlayer(indexOverride = null) {
 };
 
 window.onload = async function () {
-    //loader.classList.add('opacity-0')
+    loader.classList.add('opacity-0')
     // loader.remove();
     window.paused = null;
     window.muted = false;
     window.resolving = false;
+    window.hasTimeout = false;
 
     document.querySelector('.sidebar-toggle').addEventListener('click', handleSidebarToggle);
 
@@ -61,6 +62,14 @@ window.onload = async function () {
 
 
     await populateSideBar();
+
+    window.addEventListener('mousemove', () => {
+        play.style.opacity = 1;
+        if (!window.hasTimeout) {
+            setTimeout(() => { play.style.opacity = 0; window.hasTimeout = false }, 2000);
+            window.hasTimeout = true;
+        }
+    })
 
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
@@ -120,7 +129,7 @@ function __init__(audio) {
 
 
 function resize(canvas) {
-    canvas.width = !sidebarToggled ? window.innerWidth: window.innerWidth - sidebarWidth;
+    canvas.width = !sidebarToggled ? window.innerWidth : window.innerWidth - sidebarWidth;
     canvas.height = window.innerHeight;
 }
 
