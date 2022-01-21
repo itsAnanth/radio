@@ -55,7 +55,7 @@ audio {
 	z-index: 5;
 	position: absolute;
 	top: 10%;
-	font-size: 1rem;
+	font-size: 1.5rem;
 	color: #ccc;
 }
 
@@ -195,3 +195,9 @@ progress[value]::-webkit-progress-value {
 	flex-direction: row;
 }
 
+
+@media (max-width: 700px) {
+	:root {
+		font-size: 8px;
+	}
+}

@@ -7,7 +7,7 @@ const loader = document.getElementById('loader_div');
 const play = document.getElementById('play');
 const base = 'https://krapiv1.herokuapp.com';
 
-const sidebarWidth = 450;
+const sidebarWidth = 40;
 let sidebarToggled = false;
 
 resize(canvas);
@@ -139,8 +139,8 @@ function handleSidebarToggle() {
         document.querySelector('.sidebar-toggle').style.right = '0';
         sidebarToggled = false;
     } else {
-        document.querySelector('.sidebar').style.width = `${sidebarWidth}px`;
-        document.querySelector('.sidebar-toggle').style.right = `${sidebarWidth}px`;
+        document.querySelector('.sidebar').style.width = `${sidebarWidth}rem`;
+        document.querySelector('.sidebar-toggle').style.right = `${sidebarWidth}rem`;
         sidebarToggled = true;
     }
 }
