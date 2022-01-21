@@ -58,11 +58,15 @@ audio {
 	color: #ccc;
 }
 
-#volume-toggle {
+.footer {
+	width: 90%;
 	z-index: 999;
 	position: absolute;
 	bottom: 3%;
-	right: 1%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content:space-between;
+	align-items: center;
 	font-size: 1.5rem;
 	color: #ccc;
 	text-align: center;
