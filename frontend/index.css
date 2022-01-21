@@ -5,6 +5,10 @@
 	font-family: 'Courier Prime', monospace;
 }
 
+html, a, button {
+    cursor: url('../assets/cursor.png'), auto !important;
+}
+
 .nav {
 	z-index: 999;
 	display: flex;
@@ -64,9 +68,9 @@ audio {
 	text-align: center;
 }
 
-#volume-toggle:hover {
+/* #volume-toggle:hover {
 	cursor: pointer;
-}
+} */
 
 /* .progress {
 	width: 50%;

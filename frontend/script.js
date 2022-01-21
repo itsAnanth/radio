@@ -3,7 +3,7 @@ const content = document.getElementById('content');
 const canvas = document.getElementById('canvas');
 const volumetoggle = document.getElementById('volume-toggle');
 /** @type {HTMLInputElement} */
-const playBtn = document.getElementById('play');
+const play = document.getElementById('play');
 const base = 'https://krapiv1.herokuapp.com';
 
 resize(canvas);
@@ -43,6 +43,7 @@ window.onload = async function () {
             audio.remove();
             audio = document.createElement('audio');
         }
+        play.innerHTML = 'Loading ...'
         const index = Math.floor(Math.random() * Number(count));
         audio.src = `${base}/audio?index=${index}`;
         audio.crossOrigin = 'anonymous';
@@ -62,6 +63,7 @@ function __init__(audio) {
     visualizer.connect();
     audio.play();
     visualizer.render();
+    play.innerHTML = 'Click to Play'
 }
 
 function resize(canvas) {
