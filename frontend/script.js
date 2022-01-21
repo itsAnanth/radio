@@ -17,19 +17,19 @@ window.addEventListener('resize', () => resize(canvas));
 /** @type {HTMLAudioElement} */
 let audio = null;
 
-async function startPlayer(count = null, indexOverride = null) {
+async function startPlayer(indexOverride = null) {
     if (window.resolving) return;
 
     window.resolving = true;
 
     if (!audio) audio = document.createElement('audio');
-    else if (!audio.paused) {
+    else {
         audio.currentTime = 0
         audio.remove();
         audio = document.createElement('audio');
     }
     play.innerHTML = 'Loading ...'
-    const index = !indexOverride ? Math.floor(Math.random() * Number(count)) : indexOverride;
+    const index = !indexOverride ? Math.floor(Math.random() * Number(window.count)) : indexOverride;
     audio.onerror = console.log
     audio.src = `${base}/audio?index=${index}`;
     audio.crossOrigin = 'anonymous';
@@ -40,6 +40,7 @@ async function startPlayer(count = null, indexOverride = null) {
     content.appendChild(audio);
 
     window.resolving = await __init__(audio);
+    play.innerHTML = 'Click to Change';
     console.log('resolved')
 };
 
@@ -56,7 +57,8 @@ window.onload = async function () {
 
     if (!countRes.success) return play.innerHTML = 'Request Blocked By Client :(';
 
-    const count = countRes.message;
+    window.count = countRes.message;
+
 
     await populateSideBar();
 
@@ -81,20 +83,22 @@ window.onload = async function () {
     }
 
     function handleKeys(e) {
-        switch(e.code) {
+        switch (e.code) {
             case 'Space':
                 handleVolToggle();
                 break;
-            case 'ArrowRight': case 'ArrowLeft': 
+            case 'ArrowRight': case 'ArrowLeft':
                 handleStart();
                 break;
         }
     }
 
-    function handleStart() {
-        startPlayer(count);
-    }
+
 }
+
+async function handleStart() {
+    startPlayer();
+};
 
 /**
  * 
@@ -109,7 +113,6 @@ function __init__(audio) {
         visualizer.connect();
         audio.play();
         visualizer.render();
-        play.innerHTML = 'Click to Change'
         audio.addEventListener('loadeddata', () => resolve(false));
     })
 }
@@ -135,7 +138,7 @@ function handleSidebarToggle() {
 
 function handleTrackClick() {
     const index = this.getAttribute('data-index');
-    startPlayer(null, index);
+    startPlayer(index);
 }
 
 async function populateSideBar() {
