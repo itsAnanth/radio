@@ -5,7 +5,7 @@ const volumetoggle = document.getElementById('volume-toggle');
 const loader = document.getElementById('loader_div');
 /** @type {HTMLInputElement} */
 const play = document.getElementById('play');
-const base = 'http://localhost:3000';
+const base = 'https://krapiv1.herokuapp.com';
 
 resize(canvas);
 
