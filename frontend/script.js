@@ -34,7 +34,8 @@ window.onload = async function () {
     })
 
 
-    playBtn.addEventListener('click', async() => {
+    
+    canvas.addEventListener('click', async() => {
         if (!audio) {
             audio = document.createElement('audio');
         } else {

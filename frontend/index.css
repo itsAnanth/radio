@@ -13,7 +13,7 @@
 }
 
 #canvas {
-	z-index: -1;
+	z-index: 2;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -41,11 +41,13 @@ audio {
 }
 
 #play {
+	z-index: 5;
 	font-size: 2rem;
 	color: #ccc;
 }
 
 #details {
+	z-index: 5;
 	position: absolute;
 	top: 10%;
 	font-size: 1rem;
@@ -53,11 +55,17 @@ audio {
 }
 
 #volume-toggle {
+	z-index: 999;
 	position: absolute;
 	bottom: 3%;
 	right: 1%;
 	font-size: 1.5rem;
 	color: #ccc;
+	text-align: center;
+}
+
+#volume-toggle:hover {
+	cursor: pointer;
 }
 
 /* .progress {
