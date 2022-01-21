@@ -42,7 +42,7 @@ class Visualizer {
 
     connect() {
         this.audioContext = new AudioContext();
-        this.src = this.audioContext.createMediaElementSource(this.audio)
+        !this.src && (this.src = this.audioContext.createMediaElementSource(this.audio));
         this.analyzer = this.audioContext.createAnalyser();
         this.src.connect(this.analyzer);
 
@@ -55,9 +55,13 @@ class Visualizer {
         this.bar.width = (this.width / this.bufferLength) * 2.5;
     }
 
-    render() {
+    async render() {
         requestAnimationFrame(this.render.bind(this));
-        if (~~this.audio.duration != 0 && ~~this.audio.currentTime >= ~~this.audio.duration) play.click();
+        if (~~this.audio.duration != 0 && ~~this.audio.currentTime >= ~~this.audio.duration) {
+            this.src.disconnect();
+            this.analyzer.disconnect();
+            return await handleStart();
+        }
         elapsed.innerHTML = isNaN(this.audio.duration) ? ('00:00 / 00:00') : (`${this.convertTime(this.audio.currentTime)} / ${this.convertTime(this.audio.duration)}`);
         let dx = 0;
         this.analyzer.getByteFrequencyData(this.data);

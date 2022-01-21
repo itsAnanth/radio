@@ -19,16 +19,19 @@ window.onload = async function () {
     // loader.remove();
     window.paused = null;
     window.muted = false;
+    window.resolving = false;
 
     const countRes = (await (await fetch(`${base}/count`)).json());
 
     if (!countRes.success) return play.innerHTML = 'Request Blocked By Client :(';
 
-    const count = countRes.message;
-    
+    window.count = countRes.message;
+
+
     volumetoggle.addEventListener('click', handleVolToggle)
     canvas.addEventListener('click', handleStart);
     play.addEventListener('click', handleStart);
+    window.addEventListener('keydown', handleKeys);
 
     function handleVolToggle() {
         if (window.muted) {
@@ -45,37 +48,62 @@ window.onload = async function () {
 
     }
 
-    async function handleStart() {
-        if (!audio) {
-            audio = document.createElement('audio');
-        } else {
-            audio.currentTime = 0
-            audio.pause();
-            audio.remove();
-            audio = document.createElement('audio');
+    function handleKeys(e) {
+        switch (e.code) {
+            case 'Space':
+                handleVolToggle();
+                break;
+            case 'ArrowRight': case 'ArrowLeft':
+                handleStart();
+                break;
         }
-        play.innerHTML = 'Loading ...'
-        const index = Math.floor(Math.random() * Number(count));
-        audio.src = `${base}/audio?index=${index}`;
-        audio.crossOrigin = 'anonymous';
+    }
 
-        const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
-        
-        trackRes && trackRes.success && (details.innerText = trackRes.message.title);
-        content.appendChild(audio);
 
-        __init__(audio);
-    };
 }
 
-function __init__(audio) {
-    audio.load();
-    const visualizer = new Visualizer(audio, canvas);
+async function handleStart() {
+    if (window.resolving) return;
 
-    visualizer.connect();
-    audio.play();
-    visualizer.render();
-    play.innerHTML = 'Click to Change'
+    window.resolving = true;
+
+    if (!audio) audio = document.createElement('audio');
+    else {
+        audio.currentTime = 0
+        audio.remove();
+        audio = document.createElement('audio');
+    }
+    play.innerHTML = 'Loading ...'
+    const index = Math.floor(Math.random() * Number(window.count));
+    audio.onerror = console.log
+    audio.src = `${base}/audio?index=${index}`;
+    audio.crossOrigin = 'anonymous';
+
+    const trackRes = await (await fetch(`${base}/info?index=${index}`).catch(console.log)).json();
+
+    trackRes && trackRes.success && (details.innerText = trackRes.message.title);
+    content.appendChild(audio);
+
+    window.resolving = await __init__(audio);
+    play.innerHTML = 'Click to Change';
+    console.log('resolved')
+};
+
+/**
+ * 
+ * @param {HTMLAudioElement} audio 
+ */
+function __init__(audio) {
+    window.resolving = true;
+    return new Promise(resolve => {
+        audio.load();
+        const visualizer = new Visualizer(audio, canvas);
+
+        visualizer.connect();
+        audio.play();
+        visualizer.render();
+        audio.addEventListener('loadeddata', () => resolve(false));
+    })
 }
 
 function resize(canvas) {
