@@ -7,7 +7,7 @@ const loader = document.getElementById('loader_div');
 const play = document.getElementById('play');
 const base = 'https://krapiv1.herokuapp.com';
 
-const sidebarWidth = 40;
+const sidebarWidth = 30;
 let sidebarToggled = false;
 
 resize(canvas);
@@ -147,6 +147,7 @@ function handleSidebarToggle() {
 
 function handleTrackClick() {
     const index = this.getAttribute('data-index');
+    handleSidebarToggle();
     startPlayer(index);
 }
 
