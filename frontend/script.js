@@ -152,7 +152,7 @@ function handleTrackClick() {
 }
 
 async function populateSideBar() {
-    let accumilated = '<li class="aside__title">Tracks</li>';
+    let accumilated = `<li class="aside__title">Tracks - ${window.count}</li>`;
 
     const tracks = await (await fetch(`${base}/all`)).json();
     console.log(tracks)
