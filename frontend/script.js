@@ -9,6 +9,7 @@ const base = 'https://krapiv1.herokuapp.com';
 
 const sidebarWidth = 33;
 let sidebarToggled = false;
+let interval = null;
 
 resize(canvas);
 
@@ -45,7 +46,12 @@ async function startPlayer(indexOverride = null) {
 };
 
 window.onload = async function () {
-    loader.classList.add('opacity-0')
+    interval = setInterval(() => {
+        if (!window.resolving) {
+            loader.classList.add('opacity-0');
+            clearInterval(interval);
+        }
+    }, 500);
     // loader.remove();
     window.paused = null;
     window.muted = false;
