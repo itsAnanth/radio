@@ -26,7 +26,9 @@ class Radio {
             window.audio.volume = 0;
         
         play.innerHTML = 'Loading ...';
-        const index = !indexOverride ? Math.floor(Math.random() * window.count) : indexOverride;
+
+        const _index = indexOverride ?? false;
+        const index = _index === false ? Math.floor(Math.random() * window.count) : indexOverride;
 
         window.audio.onerror = console.error;
         window.audio.src = `${window.base}/audio?index=${index}`;
