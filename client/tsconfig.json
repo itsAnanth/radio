@@ -9,7 +9,8 @@
         "resolveJsonModule": true,
         "strict": true,
         "jsx": "react",
-        "outDir": "out"
+        "outDir": "out",
+        "lib": ["DOM"]
     },
-    "exclude": ["**/out/"]
+    "exclude": ["**/out/"],
 }
