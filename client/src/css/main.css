@@ -55,8 +55,10 @@ audio {
 	z-index: 5;
 	position: absolute;
 	top: 10%;
-	font-size: 1rem;
+	font-size: 1.3rem;
 	color: #ccc;
+    line-break: auto;
+    text-align: center;
 }
 
 .footer {
@@ -80,12 +82,20 @@ audio {
 /* .progress {
 	width: 50%;
 	height: 5%;
-
 	background-color: grey;
 	opacity: 50%;
 } */
 
+#volume-toggle {
+    font-size: 2.5rem;
+    z-index: 5;
+    color: whitesmoke;
+    transition: all 0.2s ease;
+}
 
+#volume-toggle:hover {
+    color: rgb(161, 13, 161);
+}
 
 
 progress[value] {
@@ -195,3 +205,9 @@ progress[value]::-webkit-progress-value {
 	flex-direction: row;
 }
 
+
+@media (max-width: 700px) {
+	:root {
+		font-size: 12px;
+	}
+}
