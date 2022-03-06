@@ -12,6 +12,7 @@ interface Visualizer {
     bar: { width: number, height: number };
     color: string;
     theme: number;
+    elapsed: HTMLParagraphElement;
 }
 
 export type { Visualizer };
