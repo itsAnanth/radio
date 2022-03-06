@@ -7,8 +7,9 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "allowJs": true,
         "strict": true,
         "jsx": "react",
-    }
+        "outDir": "out"
+    },
+    "exclude": ["**/out/"]
 }
