@@ -34,6 +34,11 @@ class Radio {
         window.audio.src = `${window.base}/audio?index=${index}`;
         window.audio.crossOrigin = 'anonymous';
 
+        const details = document.getElementById('details');
+        const trackRes: { success: boolean, message: { title: string } } = await (await fetch(`${window.base}/info?index=${index}`)).json();
+
+        trackRes && trackRes.success && (details.innerText = trackRes.message.title);
+
         window.resolving = await Radio.loadAudio();
         play.innerHTML = 'Click to Change';
         console.log('resolved');
