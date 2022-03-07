@@ -1,11 +1,10 @@
 # radio
 
-A simple audio streaming app built with vanilla javascript!
+A simple audio streaming app built with React.js and node.js(as backend)!
 
 
-Go to `stream` branch for production build. This project uses node.js as backend with ytdl-core to serve audio over https.
+Go to `gh-pages` branch for production build. This project uses node.js as backend with ytdl-core to serve audio over https.
 
 TODO:
 
-convert frontend to react
 convert to mono repo
