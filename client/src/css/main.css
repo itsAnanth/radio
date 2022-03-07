@@ -47,7 +47,7 @@ audio {
 #play {
 	z-index: 5;
 	font-size: 2rem;
-	color: #ccc;
+	color: white;
 	transition: all 1s;
 }
 
@@ -56,7 +56,7 @@ audio {
 	position: absolute;
 	top: 10%;
 	font-size: 1.3rem;
-	color: #ccc;
+	color: white;
     line-break: auto;
     text-align: center;
 }
