@@ -7,6 +7,9 @@ interface App extends React.Component {
     sidebarToggled: boolean;
     sidebar: RefObject<HTMLUListElement>;
     sidebarToggle: RefObject<HTMLDivElement>;
+    loaderText: RefObject<HTMLDivElement>;
+    loader: RefObject<HTMLDivElement>;
+    gotData: boolean;
 }
 
 
