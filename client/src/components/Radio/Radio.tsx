@@ -1,4 +1,5 @@
 import { Radio as IRadio } from '../../types/Radio';
+import Utils from '../../utils/Utils';
 import Visualizer from '../Visualizer/Visualizer';
 // const base = 'https://krapiv1.herokuapp.com';
 
@@ -24,13 +25,13 @@ class Radio {
         document.getElementById('root').appendChild(window.audio);
         if (window.muted)
             window.audio.volume = 0;
-        
+
         play.innerHTML = 'Loading ...';
 
         const _index = indexOverride ?? false;
         const index = _index === false ? Math.floor(Math.random() * window.count) : indexOverride;
 
-        window.audio.onerror = console.error;
+        window.audio.onerror = Radio.handleAudioError;
         window.audio.src = `${window.base}/audio?index=${index}`;
         window.audio.crossOrigin = 'anonymous';
 
@@ -56,6 +57,30 @@ class Radio {
             visualizer.render(Radio.start);
             window.audio.addEventListener('loadeddata', () => resolve(false));
         })
+    }
+
+    static async handleAudioError() {
+        let gotData = false;
+        const loader = document.getElementById('loader_div');
+        const text = document.getElementById('loader_text');
+
+        text.innerText = 'Failed Loading Audio';
+        loader.classList.remove('opacity-0');
+
+        await Utils.wait(2000);
+
+        text.innerText = 'Retrying'
+
+        for (let i = 0; i < 5; i++) {
+            console.info(`Retry count : ${i + 1}`);
+            gotData = (await Utils.getState());
+            await Utils.wait(1000);
+        }
+
+        if (!gotData) {
+            text.innerText = 'Request Timed Out';
+            return;
+        }
     }
 
 
