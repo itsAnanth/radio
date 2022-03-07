@@ -3,6 +3,7 @@ import Radio from './components/Radio/Radio';
 import type { App as IApp } from './types/App';
 import Utils from './utils/Utils';
 import './css/main.css';
+import './css/loader.css';
 import 'font-awesome/css/font-awesome.min.css'
 // @ts-ignore
 import burger from './assets/tracksburger.png';
@@ -35,14 +36,37 @@ class App extends React.Component {
 		this.play = React.createRef();
 		this.sidebar = React.createRef();
 		this.sidebarToggle = React.createRef();
+		this.loaderText = React.createRef();
+		this.loader = React.createRef();
 		this.sidebarToggled = false;
+		this.gotData = false;
 	}
 
 	async componentDidMount() {
 		await this.init();
 	}
 
+
+
 	async init() {
+		if (!await Utils.getState()) {
+			await Utils.wait(1000);
+			this.loaderText.current.innerText = 'Failed Loading Audio';
+			await Utils.wait(1000);
+
+			this.loaderText.current.innerText = 'Retrying'
+			
+			for (let i = 0; i < 5; i++) {
+				console.info(`Retry count : ${i + 1}`);
+				this.gotData = (await Utils.getState());
+				await Utils.wait(1000);
+			}
+
+			if (!this.gotData) {
+				this.loaderText.current.innerText = 'Request Timed Out';
+				return;
+			}
+		}
 
 		const trackCount: { success: boolean, message: string } = (await (await fetch(`${window.base}/count`)).json());
 
@@ -59,14 +83,18 @@ class App extends React.Component {
 		this.play.current.addEventListener('click', Radio.start.bind(null, false));
 		this.canvas.current.addEventListener('resize', Utils.resize.bind(null, this.canvas.current));
 
+
+		this.loader.current.classList.add('opacity-0');
 	}
+
 
 	render() {
 		return (
 			<div className="container">
 				<div className="main">
-					<div id="loader_div" className="preloader">
-						<div className="loader"></div>
+					<div ref={this.loader} id="loader_div" className="preloader">
+						<div  className="loader"></div>
+						<div ref={this.loaderText} id='loader_text'>Initializing</div>
 					</div>
 					<div id="content">
 						<p id="details"></p>
