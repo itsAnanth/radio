@@ -40,9 +40,13 @@ class App extends React.Component {
 		this.loader = React.createRef();
 		this.sidebarToggled = false;
 		this.gotData = false;
+
+		this.touchStartX = 0;
+		this.touchEndX = 0;
 	}
 
 	async componentDidMount() {
+		this.setState(this.state)
 		await this.init();
 	}
 
@@ -55,7 +59,7 @@ class App extends React.Component {
 			await Utils.wait(1000);
 
 			this.loaderText.current.innerText = 'Retrying'
-			
+
 			for (let i = 0; i < 5; i++) {
 				console.info(`Retry count : ${i + 1}`);
 				this.gotData = (await Utils.getState());
@@ -78,11 +82,22 @@ class App extends React.Component {
 		Utils.resize(this.canvas.current);
 		await this.populateSideBar();
 
-		this.sidebarToggle.current.addEventListener('click', this.handleSidebarToggle.bind(this));
+		this.sidebarToggle.current.addEventListener('click', this.handleSidebarToggle.bind(this, null));
 		this.canvas.current.addEventListener('click', Radio.start.bind(null, false));
 		this.play.current.addEventListener('click', Radio.start.bind(null, false));
 		this.canvas.current.addEventListener('resize', Utils.resize.bind(null, this.canvas.current));
+		window.addEventListener('keydown', Utils.handleKeys.bind(this));
+		window.addEventListener('touchstart', e => {
+			this.touchStartX = e.changedTouches[0].screenX
+		})
 
+		window.addEventListener('touchend', e => {
+			this.touchEndX = e.changedTouches[0].screenX
+			if (this.touchEndX < this.touchStartX) 
+				this.handleSidebarToggle('open')
+			if (this.touchEndX > this.touchStartX) 
+				this.handleSidebarToggle('close');
+		})
 
 		this.loader.current.classList.add('opacity-0');
 	}
@@ -93,7 +108,7 @@ class App extends React.Component {
 			<div className="container">
 				<div className="main">
 					<div ref={this.loader} id="loader_div" className="preloader">
-						<div  className="loader"></div>
+						<div className="loader"></div>
 						<div ref={this.loaderText} id='loader_text'>Initializing</div>
 					</div>
 					<div id="content">
@@ -102,7 +117,7 @@ class App extends React.Component {
 						<p id="play" ref={this.play}>Click to Play</p>
 						<div className="footer">
 							<div id="elapsed" className="elapsed"></div>
-							<i ref={this.volumeBtn} onClick={this.handleVolToggle.bind(this)} id="volume-toggle" className='fa fa-volume-up'></i>
+							<i ref={this.volumeBtn} onClick={Utils.handleVolToggle.bind(this)} id="volume-toggle" className='fa fa-volume-up'></i>
 						</div>
 
 					</div>
@@ -115,8 +130,8 @@ class App extends React.Component {
 		);
 	}
 
-	handleSidebarToggle() {
-		if (this.sidebarToggled) {
+	handleSidebarToggle(override?: 'close'|'open'): any {
+		if ((override && override === 'close') || this.sidebarToggled) {
 			this.sidebar.current.style.width = '0';
 			this.sidebarToggle.current.style.right = '0';
 			this.sidebarToggled = false;
@@ -125,22 +140,6 @@ class App extends React.Component {
 			this.sidebarToggle.current.style.right = `${sidebarWidth}rem`;
 			this.sidebarToggled = true;
 		}
-	}
-
-	handleVolToggle() {
-		if (!(window.audio && this.volumeBtn)) return;
-		if (window.muted) {
-			window.muted = false;
-			window.audio.volume = 1;
-			this.volumeBtn.current.classList.remove('fa-volume-off');
-			this.volumeBtn.current.classList.add('fa-volume-up');
-		} else {
-			window.muted = true;
-			window.audio.volume = 0;
-			this.volumeBtn.current.classList.add('fa-volume-off');
-			this.volumeBtn.current.classList.remove('fa-volume-up');
-		}
-
 	}
 
 	handleTrackClick(track: any) {
@@ -158,7 +157,7 @@ class App extends React.Component {
 			const trackTemplate = `
 			<li class="aside__content" data-index="${index}">
 				<img src="${track.thumbnail}" alt="a video thumbnail" class="thumbnail">
-				<p>${track.title.slice(0, 30) + '...'}</p>
+				<p class="sidebar_track_name">${track.title.slice(0, 30) + '...'}</p>
 				<p class="aside__play">▶</p>
 			</li>
 			`
