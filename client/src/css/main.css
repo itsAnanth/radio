@@ -5,6 +5,10 @@
 	font-family: 'Courier Prime', monospace;
 }
 
+body {
+	overflow-y: hidden;
+}
+
 html, a, button {
     cursor: url('../assets/cursor.png'), auto !important;
 }
@@ -65,7 +69,7 @@ audio {
 	width: 90%;
 	z-index: 999;
 	position: absolute;
-	bottom: 3%;
+	bottom: 1rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content:space-between;
@@ -248,11 +252,19 @@ progress[value]::-webkit-progress-value {
 	:root {
 		font-size: 13px;
 	}
+
+	.sidebar-toggle {
+		display: block;
+	}
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 	:root {
 		font-size: 16px;
+	}
+
+	.sidebar-toggle {
+		display: block;
 	}
 }
