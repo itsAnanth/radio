@@ -142,7 +142,7 @@ class App extends React.Component {
 			const trackTemplate = `
 			<li class="aside__content" data-index="${index}">
 				<img src="${track.thumbnail}" alt="a video thumbnail" class="thumbnail">
-				<p>${track.title.slice(0, 30) + '...'}</p>
+				<p class="sidebar_track_name">${track.title.slice(0, 30) + '...'}</p>
 				<p class="aside__play">▶</p>
 			</li>
 			`
