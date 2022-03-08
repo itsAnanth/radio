@@ -82,7 +82,7 @@ class App extends React.Component {
 		this.canvas.current.addEventListener('click', Radio.start.bind(null, false));
 		this.play.current.addEventListener('click', Radio.start.bind(null, false));
 		this.canvas.current.addEventListener('resize', Utils.resize.bind(null, this.canvas.current));
-
+		window.addEventListener('keydown', Utils.handleKeys.bind(this));
 
 		this.loader.current.classList.add('opacity-0');
 	}
@@ -102,7 +102,7 @@ class App extends React.Component {
 						<p id="play" ref={this.play}>Click to Play</p>
 						<div className="footer">
 							<div id="elapsed" className="elapsed"></div>
-							<i ref={this.volumeBtn} onClick={this.handleVolToggle.bind(this)} id="volume-toggle" className='fa fa-volume-up'></i>
+							<i ref={this.volumeBtn} onClick={Utils.handleVolToggle.bind(this)} id="volume-toggle" className='fa fa-volume-up'></i>
 						</div>
 
 					</div>
@@ -125,22 +125,6 @@ class App extends React.Component {
 			this.sidebarToggle.current.style.right = `${sidebarWidth}rem`;
 			this.sidebarToggled = true;
 		}
-	}
-
-	handleVolToggle() {
-		if (!(window.audio && this.volumeBtn)) return;
-		if (window.muted) {
-			window.muted = false;
-			window.audio.volume = 1;
-			this.volumeBtn.current.classList.remove('fa-volume-off');
-			this.volumeBtn.current.classList.add('fa-volume-up');
-		} else {
-			window.muted = true;
-			window.audio.volume = 0;
-			this.volumeBtn.current.classList.add('fa-volume-off');
-			this.volumeBtn.current.classList.remove('fa-volume-up');
-		}
-
 	}
 
 	handleTrackClick(track: any) {
