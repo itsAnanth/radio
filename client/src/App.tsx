@@ -135,7 +135,7 @@ class App extends React.Component {
 			this.sidebar.current.style.width = '0';
 			this.sidebarToggle.current.style.right = '0';
 			this.sidebarToggled = false;
-		} else {
+		} else if ((override && override === 'open') || !this.sidebarToggled) {
 			this.sidebar.current.style.width = `${sidebarWidth}rem`;
 			this.sidebarToggle.current.style.right = `${sidebarWidth}rem`;
 			this.sidebarToggled = true;
