@@ -206,8 +206,23 @@ progress[value]::-webkit-progress-value {
 }
 
 
-@media (max-width: 700px) {
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
 	:root {
-		font-size: 12px;
+		font-size: 8px;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	:root {
+		font-size: 8px;
+	}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+	:root {
+		font-size: 10px;
 	}
 }
