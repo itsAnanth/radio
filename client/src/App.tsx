@@ -90,9 +90,12 @@ class App extends React.Component {
 		window.addEventListener('touchstart', e => {
 			this.touchStartX = e.changedTouches[0].screenX
 		})
-
 		window.addEventListener('touchend', e => {
-			this.touchEndX = e.changedTouches[0].screenX
+			this.touchEndX = e.changedTouches[0].screenX;
+			const boundingRect = this.sidebar.current.getBoundingClientRect();
+
+			if (this.touchStartX >= boundingRect.x) return;
+			
 			if (this.touchEndX < this.touchStartX) 
 				this.handleSidebarToggle('open')
 			if (this.touchEndX > this.touchStartX) 
