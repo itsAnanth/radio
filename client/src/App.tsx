@@ -53,7 +53,7 @@ class App extends React.Component {
 
 
 	async init() {
-		if (!await Utils.getState()) {
+		if (!await Utils.ping()) {
 			await Utils.wait(1000);
 			this.loaderText.current.innerText = 'Failed Loading Audio';
 			await Utils.wait(1000);
@@ -62,7 +62,7 @@ class App extends React.Component {
 
 			for (let i = 0; i < 5; i++) {
 				console.info(`Retry count : ${i + 1}`);
-				this.gotData = (await Utils.getState());
+				this.gotData = await Utils.ping()
 				await Utils.wait(1000);
 			}
 
@@ -90,9 +90,12 @@ class App extends React.Component {
 		window.addEventListener('touchstart', e => {
 			this.touchStartX = e.changedTouches[0].screenX
 		})
-
 		window.addEventListener('touchend', e => {
-			this.touchEndX = e.changedTouches[0].screenX
+			this.touchEndX = e.changedTouches[0].screenX;
+			const boundingRect = this.sidebar.current.getBoundingClientRect();
+
+			if (this.touchStartX >= boundingRect.x) return;
+
 			if (this.touchEndX < this.touchStartX) 
 				this.handleSidebarToggle('open')
 			if (this.touchEndX > this.touchStartX) 
