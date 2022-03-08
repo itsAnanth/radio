@@ -10,6 +10,8 @@ interface App extends React.Component {
     loaderText: RefObject<HTMLDivElement>;
     loader: RefObject<HTMLDivElement>;
     gotData: boolean;
+    touchStartX: number;
+    touchStartY: number;
 }
 
 
