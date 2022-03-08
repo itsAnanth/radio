@@ -2,23 +2,32 @@ import Radio from "../components/Radio/Radio";
 import { App } from "../types/App";
 
 class Utils {
-    static resize(canvas: HTMLCanvasElement) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+	static resize(canvas: HTMLCanvasElement) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
 
-    static wait(time: number) {
+	static wait(time: number) {
 		return new Promise(resolve => {
 			setTimeout(resolve, time)
 		})
 	}
 
-    static async getState(): Promise<boolean> {
+	static async ping(): Promise<boolean> {
+		type response = { success: boolean, message: string };
+		let res = await fetch(`${window.base}/ping`).catch(console.error);
+		if (!res) return false;
+		res = await res.json();
+		console.log(`[server] got ${(res as unknown as response).message}`)
+		return (res as unknown as response).success;
+	}
+
+	static async getState(): Promise<boolean> {
 		window.audio = document.createElement('audio');
 		document.getElementById('root').appendChild(window.audio);
 
-        window.audio.src = `${window.base}/audio?index=0`;
-        window.audio.crossOrigin = 'anonymous';
+		window.audio.src = `${window.base}/audio?index=0`;
+		window.audio.crossOrigin = 'anonymous';
 
 		const promise = new Promise((resolve) => {
 			window.audio.onerror = () => resolve(false);
@@ -45,15 +54,15 @@ class Utils {
 	}
 
 	static handleKeys(e: KeyboardEvent) {
-        switch (e.code) {
-            case 'Space':
-                Utils.handleVolToggle.call(this);
-                break;
-            case 'ArrowRight': case 'ArrowLeft':
-                Radio.start();
-                break;
-        }
-    }
+		switch (e.code) {
+			case 'Space':
+				Utils.handleVolToggle.call(this);
+				break;
+			case 'ArrowRight': case 'ArrowLeft':
+				Radio.start();
+				break;
+		}
+	}
 }
 
 export default Utils;
