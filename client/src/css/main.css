@@ -215,6 +215,10 @@ progress[value]::-webkit-progress-value {
 	:root {
 		font-size: 8px;
 	}
+
+	.sidebar-toggle {
+		display: none;
+	}
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -222,19 +226,27 @@ progress[value]::-webkit-progress-value {
 	:root {
 		font-size: 8px;
 	}
+
+	.sidebar-toggle {
+		display: none;
+	}
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 	:root {
-		font-size: 10px;
+		font-size: 9px;
+	}
+
+	.sidebar-toggle {
+		display: none;
 	}
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 	:root {
-		font-size: 16px;
+		font-size: 13px;
 	}
 }
 
