@@ -149,7 +149,7 @@ class App extends React.Component {
 	}
 
 	async populateSideBar() {
-		let accumilated = '<li class="aside__title">Tracks</li>';
+		let accumilated = `<li class="aside__title">Tracks - ${window.count}</li>`;
 
 		const tracks: { success: boolean, message: ({ thumbnail: string, title: string })[] } = await (await fetch(`${window.base}/all`)).json();
 
