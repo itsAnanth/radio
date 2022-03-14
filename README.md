@@ -12,3 +12,5 @@ convert to mono repo
 Add account system
 
 Add personal playlists
+
+optimize backend
