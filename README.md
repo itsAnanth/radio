@@ -13,4 +13,6 @@ TODO:
 
 * Add personal playlists
 
-* optimize backend
+* optimize backend 
+
+* Add buffering
