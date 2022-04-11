@@ -1,4 +1,4 @@
-# radio
+# Radio
 
 A simple audio streaming app built with React.js and node.js(as backend)!
 
