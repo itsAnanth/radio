@@ -1,4 +1,5 @@
 import { Radio as IRadio } from '../../types/Radio';
+import AnimationFrame from '../../utils/AnimationFrame';
 import Utils from '../../utils/Utils';
 import Visualizer from '../Visualizer/Visualizer';
 // const base = 'https://krapiv1.herokuapp.com';
@@ -55,6 +56,9 @@ class Radio {
             visualizer.connect();
             window.audio.play();
             visualizer.render(Radio.start);
+
+            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start));
+            frame.start();
             window.audio.addEventListener('loadeddata', () => resolve(false));
         })
     }

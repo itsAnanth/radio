@@ -45,7 +45,7 @@ class Visualizer {
     }
 
     async render(handleStart: () => Promise<any>) {
-        requestAnimationFrame(this.render.bind(this, handleStart));
+        // requestAnimationFrame(this.render.bind(this, handleStart));
         if (~~this.audio.duration !== 0 && ~~this.audio.currentTime >= ~~this.audio.duration) {
             this.src.disconnect();
             this.analyzer.disconnect();
