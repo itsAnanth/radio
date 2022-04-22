@@ -57,9 +57,14 @@ class Radio {
             window.audio.play();
             // visualizer.render(Radio.start);
 
-            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration]);
+            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration, clear]);
             frame.start();
             window.audio.addEventListener('loadeddata', () => resolve(false));
+
+
+            function clear() {
+                visualizer.ctx.clearRect(0, 0, visualizer.width, visualizer.height);
+            }
 
             function duration() {
                 if (visualizer.elapsed)

@@ -13,18 +13,19 @@ class AnimationFrame {
     start() {
         let then = performance.now();
         const interval = 1000 / this.fps;
-        const tolerance = 0.1;
+        const tolerance = 0;
 
         const animateLoop = (now: number) => {
             this.requestId = requestAnimationFrame(animateLoop);
             const delta = now - then;
 
             if (delta >= interval - tolerance) {
+                this.fn[1]();
                 then = now - (delta % interval);
                 this.callback(delta);
             }
 
-            this.fn.forEach(x => x());
+            this.fn[0]();
         };
         this.requestId = requestAnimationFrame(animateLoop);
     }
