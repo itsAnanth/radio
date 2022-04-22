@@ -19,6 +19,8 @@ declare global {
 		muted: boolean;
 		hasTimeout: boolean;
 		base: string;
+
+		frameId: number;
 	}
 }
 

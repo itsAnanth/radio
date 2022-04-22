@@ -58,8 +58,13 @@ class Radio {
             // visualizer.render(Radio.start);
 
             const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration, clear]);
-            frame.start();
-            window.audio.addEventListener('loadeddata', () => resolve(false));
+        
+
+            window.audio.addEventListener('loadeddata', () => {
+                Radio.stopRender();
+                frame.start();
+                resolve(false)
+            });
 
 
             function clear() {
@@ -96,6 +101,14 @@ class Radio {
             return;
         }
     }
+
+
+    static stopRender() {
+		if (window.frameId) {
+			cancelAnimationFrame(window.frameId);
+			window.frameId = null;
+		}
+	}
 
 
 }
