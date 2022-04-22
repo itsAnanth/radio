@@ -56,7 +56,7 @@ class Visualizer {
         let dx = 0;
         this.analyzer.getByteFrequencyData(this.data);
 
-        this.ctx.clearRect(0, 0, this.width, this.height);
+        // this.ctx.clearRect(0, 0, this.width, this.height);
 
         for (let i = 0; i < this.bufferLength; i++) {
             let maxH = (this.data[i] * 2) * 95 / 100;

@@ -11,12 +11,13 @@ class AnimationFrame {
     }
 
     start() {
-        let then = performance.now();
+        let then = Date.now();
         const interval = 1000 / this.fps;
         const tolerance = 0;
 
-        const animateLoop = (now: number) => {
+        const animateLoop = (_now: number) => {
             this.requestId = requestAnimationFrame(animateLoop);
+            let now = Date.now();
             const delta = now - then;
 
             if (delta >= interval - tolerance) {
