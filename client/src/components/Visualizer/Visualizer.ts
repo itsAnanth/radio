@@ -51,8 +51,7 @@ class Visualizer {
             this.analyzer.disconnect();
             return await handleStart();
         }
-        if (this.elapsed)
-            this.elapsed.innerHTML = isNaN(this.audio.duration) ? ('00:00 / 00:00') : (`${this.convertTime(this.audio.currentTime)} / ${this.convertTime(this.audio.duration)}`);
+
 
         let dx = 0;
         this.analyzer.getByteFrequencyData(this.data);

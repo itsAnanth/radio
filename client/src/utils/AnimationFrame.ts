@@ -3,10 +3,11 @@ import type { IAF } from '../types/AnimationFrame';
 interface AnimationFrame extends IAF { };
 
 class AnimationFrame {
-    constructor(fps = 60, callback: (delta: number) => any|Promise<any>) {
+    constructor(fps = 60, callback: (delta: number) => any | Promise<any>, fn?: (() => any | Promise<any>)[]) {
         this.requestId = 0;
         this.fps = fps;
         this.callback = callback;
+        this.fn = fn ?? [];
     }
 
     start() {
@@ -22,6 +23,8 @@ class AnimationFrame {
                 then = now - (delta % interval);
                 this.callback(delta);
             }
+
+            this.fn.forEach(x => x());
         };
         this.requestId = requestAnimationFrame(animateLoop);
     }
