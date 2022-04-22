@@ -1,4 +1,5 @@
 import { Radio as IRadio } from '../../types/Radio';
+import AnimationFrame from '../../utils/AnimationFrame';
 import Utils from '../../utils/Utils';
 import Visualizer from '../Visualizer/Visualizer';
 // const base = 'https://krapiv1.herokuapp.com';
@@ -54,8 +55,16 @@ class Radio {
 
             visualizer.connect();
             window.audio.play();
-            visualizer.render(Radio.start);
+            // visualizer.render(Radio.start);
+
+            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration]);
+            frame.start();
             window.audio.addEventListener('loadeddata', () => resolve(false));
+
+            function duration() {
+                if (visualizer.elapsed)
+                    visualizer.elapsed.innerHTML = isNaN(visualizer.audio.duration) ? ('00:00 / 00:00') : (`${visualizer.convertTime(visualizer.audio.currentTime)} / ${visualizer.convertTime(visualizer.audio.duration)}`);
+            }
         })
     }
 
@@ -85,5 +94,6 @@ class Radio {
 
 
 }
+
 
 export default Radio;

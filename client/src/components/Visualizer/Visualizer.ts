@@ -45,14 +45,13 @@ class Visualizer {
     }
 
     async render(handleStart: () => Promise<any>) {
-        requestAnimationFrame(this.render.bind(this, handleStart));
+        // requestAnimationFrame(this.render.bind(this, handleStart));
         if (~~this.audio.duration !== 0 && ~~this.audio.currentTime >= ~~this.audio.duration) {
             this.src.disconnect();
             this.analyzer.disconnect();
             return await handleStart();
         }
-        if (this.elapsed)
-            this.elapsed.innerHTML = isNaN(this.audio.duration) ? ('00:00 / 00:00') : (`${this.convertTime(this.audio.currentTime)} / ${this.convertTime(this.audio.duration)}`);
+
 
         let dx = 0;
         this.analyzer.getByteFrequencyData(this.data);
