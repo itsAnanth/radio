@@ -57,9 +57,19 @@ class Radio {
             window.audio.play();
             // visualizer.render(Radio.start);
 
-            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration]);
-            frame.start();
-            window.audio.addEventListener('loadeddata', () => resolve(false));
+            const frame = new AnimationFrame(60, visualizer.render.bind(visualizer, Radio.start), [duration, clear]);
+        
+
+            window.audio.addEventListener('loadeddata', () => {
+                Radio.stopRender();
+                frame.start();
+                resolve(false)
+            });
+
+
+            function clear() {
+                visualizer.ctx.clearRect(0, 0, visualizer.width, visualizer.height);
+            }
 
             function duration() {
                 if (visualizer.elapsed)
@@ -91,6 +101,14 @@ class Radio {
             return;
         }
     }
+
+
+    static stopRender() {
+		if (window.frameId) {
+			cancelAnimationFrame(window.frameId);
+			window.frameId = null;
+		}
+	}
 
 
 }
