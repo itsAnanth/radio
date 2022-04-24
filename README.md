@@ -12,7 +12,5 @@ TODO:
 * Add account system
 
 * Add personal playlists
-
-* optimize backend 
-
+* 
 * Add buffering
