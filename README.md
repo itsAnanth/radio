@@ -7,10 +7,8 @@ Go to `gh-pages` branch for production build. This project uses node.js as backe
 
 TODO:
 
-* convert to mono repo
-
-* Add account system
-
-* Add personal playlists
-* 
-* Add buffering
+- [x] convert to react
+- [ ] convert to mono repo
+- [ ] Add account system
+- [ ] Add personal playlists 
+- [ ] Add buffering
