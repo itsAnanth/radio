@@ -11,4 +11,4 @@ TODO:
 - [ ] convert to mono repo
 - [ ] Add account system
 - [ ] Add personal playlists 
-- [ ] Add buffering
+- [x] Add buffering
