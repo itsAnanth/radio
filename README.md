@@ -12,3 +12,4 @@ TODO:
 - [ ] Add account system
 - [ ] Add personal playlists 
 - [x] Add buffering
+- [ ] Add auth with firebase
