@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
         "target": "ESNext",
