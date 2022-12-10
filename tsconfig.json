@@ -1,0 +1,23 @@
+{
+    // Mapped from https://www.typescriptlang.org/tsconfig
+    "compilerOptions": {
+        // type checks
+        "allowUnusedLabels": false,
+        "allowUnreachableCode": false,
+        "strictNullChecks": false,
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "strict": true,
+        // modules
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        // env
+        "target": "ESNext",
+        "sourceMap": false,
+        "declaration": true,
+        "declarationMap": true,
+    },
+}
